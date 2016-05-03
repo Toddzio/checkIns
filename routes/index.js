@@ -117,9 +117,12 @@ router.post('/children', authenticatedUser, function(req, res, next) {
 });
 
 /* create a checkin */
-router.get('/test/:hash/checkin', authenticatedUser, function(req, res, next){
+router.get('/test/:hash/checkin', function(req, res, next){
   Child.find({ url: req.params.hash }, 'fname lname url', function(err, child) {
-    res.render('checkin');
+    console.log(child);
+    res.render('checkin', {
+      name: child[0].fname
+    });
 
   });
 })

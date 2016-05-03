@@ -1,31 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
-<p>Click the button to get your coordinates.</p>
 
-<button onclick="getLocation()">Try It</button>
+<p>Hello <%= name %> Please checkin to let your family know you are home</p>
 
-<p id="demo"></p>
+<button id="checkIn">check in</button>
 
-<script>
-var x = document.getElementById("demo");
+<p id="demo"></p> 
 
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else { 
-        x.innerHTML = "Geolocation is not supported by this browser.";
-    }
-}
-
-function showPosition(position) {
-    x.innerHTML = "Latitude: " + position.coords.latitude + 
-    "<br>Longitude: " + position.coords.longitude;	
-}
-</script>
-
-</body>
-</html>
+<script src='/javascripts/maps.js' type="text/javascript"></script>
