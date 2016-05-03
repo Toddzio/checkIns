@@ -1,5 +1,6 @@
 var express = require('express');
 var passport = require("passport")
+var qr = require('qr-image'); 
 var User = require('../models/user');
 var Child = require('../models/child');
 var router = express.Router();
@@ -72,10 +73,12 @@ router.get('/secret', authenticatedUser, function(req, res, next) {
 
 /* list children */
 router.get('/children', authenticatedUser, function(req, res, next) {
-  console.log(req.user);
-  Child.find({ _id: '5727ab3299767b175b7453a7' }, 'fname lname', function(err, child) {
-    console.log(child);
-  // if (err) console.log(err);
+  // console.log(req.user._id);
+  var userId = req.user._id.toString();
+  Child.find({ user: userId }, 'fname lname url', function(err, child) {
+  if (err) console.log(err);
+
+  console.log(child);
 
   // user.name
   // user.email
@@ -95,30 +98,44 @@ router.get('/children', authenticatedUser, function(req, res, next) {
 router.post('/children', authenticatedUser, function(req, res, next) {
     var user = req.body.user;
     var fname = req.body.fname;
-    var lname = req.body.lname;  
+    var lname = req.body.lname;
+    var childUrl = Child.generateURL(fname, lname);
 
     var newChild = Child({
         user: user,
         fname: fname,
-        lname: lname
+        lname: lname,
+        url: childUrl
     });
-
+    console.log(newChild);
     // Save the user
-    newChild.save(function(err, user) {
+    newChild.save(function(err, child) {
         if (err) console.log(err);
 
-        res.send('User created!');
+        res.redirect('/children');
     });
 });
 
-/* create a qr code for a child */
-router.get('/child/ahash', function(req, res, next ){
-
-})
-
 /* create a checkin */
-router.get('/checkin/ahash', function(req, res, next){
+router.get('/test/:hash/checkin', authenticatedUser, function(req, res, next){
+  Child.find({ url: req.params.hash }, 'fname lname url', function(err, child) {
+    res.render('checkin');
 
-
+  });
 })
+
+/*test route */
+router.get('/test/:hash', authenticatedUser, function(req, res) { 
+  Child.find({ url: req.params.hash }, 'fname lname url', function(err, child) {
+ 
+    console.log(child[0].url);
+    var urlA = "http://localhost:3000/test/"
+    var myUrl = urlA.concat(child[0].url) + "/checkin";
+    console.log(myUrl);
+    var code = qr.image(myUrl, { type: 'svg' });
+    res.type('svg');
+    code.pipe(res);
+  });
+});
+
 module.exports = router;

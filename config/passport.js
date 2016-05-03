@@ -31,9 +31,8 @@ module.exports = function(passport) {
         return done(null, false, req.flash('errorMessage', 'This email is already used!'));
       } else {
 
-        debugger;
         var newUser = new User();
-        console.log(req)
+
         newUser.local.email = email;
         newUser.local.password = User.hash(password);
         newUser.local.fname = req.body.fname;

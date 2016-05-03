@@ -11,8 +11,21 @@
 <%= lname %>
 <%= children %>
 </div>
-<div>
+<form method="post" action="/children">
+	<div class="form-group">
+		<input class="form-control" type="hidden" name="user" id="user" value="<%= id %>">
+	</div>
+	<div class="form-group">
+		<label for="email">First Name</label>
+		<input class="form-control" type="text" name="fname" id="fname">
+	</div>
 
-</div>
+	<div class="form-group">
+		<label for="email">Last Name</label>
+		<input class="form-control" type="text" name="lname" id="lname">
+	</div>
+
+	<input class="btn btn-default" type="submit">
+</form>
 </body>
 </html>

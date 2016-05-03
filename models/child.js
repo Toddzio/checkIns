@@ -12,4 +12,26 @@ var childSchema = mongoose.Schema({
 	}]
 });
 
-module.exports = mongoose.model('Child', childSchema);
+
+String.prototype.hashCode = function(){
+    var hash = 0;
+    if (this.length === 0) return hash;
+    for (i = 0; i < this.length; i++) {
+        char = this.charCodeAt(i);
+        hash = ((hash<<5)-hash)+char;
+        hash = hash & hash; // Convert to 32bit integer
+    }
+    return hash;
+};
+
+childSchema.statics.generateURL = function(fname, lname){
+	var myHash = (Math.abs(fname.concat(lname).hashCode())).toString();
+	console.log(myHash);
+	var myDate = new Date().getTime().toString();
+	var url = myHash.concat(myDate);
+	console.log(url);
+	return url;
+}
+
+var Child = mongoose.model('Child', childSchema);
+module.exports = Child;
