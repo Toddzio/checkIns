@@ -1,5 +1,5 @@
 var express = require('express');
-var passport = require("passport")
+var passport = require("passport");
 var qr = require('qr-image'); 
 var User = require('../models/user');
 var Child = require('../models/child');
@@ -52,13 +52,18 @@ router.get('/login', unAuthenticatedUser, function(req, res, next) {
 /* POST /login */
 router.post('/login', function(req, res, next) {
   var loginStrategy = passport.authenticate('local-login', {
-    successRedirect: "/",
+    successRedirect: "/home",
     failureRedirect: "/login",
     failureFlash: true
   });
 
   return loginStrategy(req, res);
 });
+
+/* Render Home */
+router.get('/home', authenticatedUser, function(req, res, next){
+  res.render('home');
+})
 
 /* GET /logout */
 router.get('/logout', function(req, res, next) {
@@ -71,20 +76,32 @@ router.get('/secret', authenticatedUser, function(req, res, next) {
   res.render("secret");
 });
 
-/* list children */
-router.get('/children', authenticatedUser, function(req, res, next) {
+/* view all children */
+router.get('/children', authenticatedUser, function(req, res, next){
+    var userId = req.user._id.toString();
+  Child.find({ user: userId }, 'fname lname url', function(err, child){
+      if (err) console.log("snake")
+        
+    console.log("child");
+    res.render('children', {
+      Children: child
+    });
+  });
+});
+
+
+/* create new children */
+router.get('/children/new', authenticatedUser, function(req, res, next) {
   // console.log(req.user._id);
   var userId = req.user._id.toString();
   Child.find({ user: userId }, 'fname lname url', function(err, child) {
   if (err) console.log(err);
 
-  console.log(child);
-
   // user.name
   // user.email
   // user.favorite 
 });
-  res.render("children", {
+  res.render("childrennew", {
     id: req.user._id,
     fname: req.user.local.fname,
     lname: req.user.local.lname,
@@ -95,7 +112,7 @@ router.get('/children', authenticatedUser, function(req, res, next) {
 
 /* create a child object */
 
-router.post('/children', authenticatedUser, function(req, res, next) {
+router.post('/childrennew', authenticatedUser, function(req, res, next) {
     var user = req.body.user;
     var fname = req.body.fname;
     var lname = req.body.lname;
@@ -118,23 +135,46 @@ router.post('/children', authenticatedUser, function(req, res, next) {
 
 /* create a checkin */
 router.get('/test/:hash/checkin', function(req, res, next){
-  Child.find({ url: req.params.hash }, 'fname lname url', function(err, child) {
-    console.log(child);
+  Child.find({ url: req.params.hash }, 'fname lname url checkins', function(err, child) {
+    console.log(child[0].checkins);
     res.render('checkin', {
-      name: child[0].fname
+      name: child[0].fname,
+      hash: child[0].url,
+      userId: child[0]._id
+    });
+
+  });
+})
+ 
+/* update child with checkin */
+router.patch('/test/:hash/checkin', function(req, res, next){
+  req.body.time = new Date()
+  Child.update({url: req.params.hash}, { $push: {checkins: req.body }},  function(err, numberAffected, rawResponse) {
+     if (err)
+  console.log(err);
+    res.redirect('/');
+  });
+});
+
+/* list checkins */
+router.get('/children/:hash/review', authenticatedUser, function(req, res, next){
+  Child.find({ url: req.params.hash }, 'fname lname url checkins', function(err, child) {
+    console.log(child[0].checkins);
+    res.render('review', {
+      fname: child[0].fname,
+      lname: child[0].lname,
+      hash: child[0].url,
+      checkins: child[0].checkins
     });
 
   });
 })
 
-/*test route */
-router.get('/test/:hash', authenticatedUser, function(req, res) { 
+/*QR code generation */
+router.get('/children/:hash/qr', authenticatedUser, function(req, res) { 
   Child.find({ url: req.params.hash }, 'fname lname url', function(err, child) {
- 
-    console.log(child[0].url);
-    var urlA = "http://localhost:3000/test/"
+     var urlA = "http://localhost:3000/test/"
     var myUrl = urlA.concat(child[0].url) + "/checkin";
-    console.log(myUrl);
     var code = qr.image(myUrl, { type: 'svg' });
     res.type('svg');
     code.pipe(res);

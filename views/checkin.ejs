@@ -1,8 +1,15 @@
 
+<div>
 <p>Hello <%= name %> Please checkin to let your family know you are home</p>
-
-<button id="checkIn">check in</button>
-
+</div>
+<form action= "/test/<%= hash %>/checkin" method="POST">
+	<input type="hidden" name="_method" value="PATCH">
+	<input type="hidden" name="time" id="time" value="">
+	<input type="hidden" name="lat" id="lat" value="">
+	<input type="hidden" name="long" id="long" value="">
+	<button id="checkIn" type="submit">check in</button>
+</form>
 <p id="demo"></p> 
+
 
 <script src='/javascripts/maps.js' type="text/javascript"></script>

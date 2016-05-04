@@ -1,31 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Create a Child</title>
-</head>
-<body>
-<h1>New Children will go here.</h1>
-<div>
-<%= id %>
-<%= fname %>
-<%= lname %>
-<%= children %>
-</div>
-<form method="post" action="/children">
-	<div class="form-group">
-		<input class="form-control" type="hidden" name="user" id="user" value="<%= id %>">
-	</div>
-	<div class="form-group">
-		<label for="email">First Name</label>
-		<input class="form-control" type="text" name="fname" id="fname">
-	</div>
+<h1>Children go here</h1>
+<% Children.forEach(function(child){ %>
+	<h5><%= child.fname %></h5>
+	<h5><%= child.lname %></h5>
+	<a href="/children/<%= child.url %>/qr" target="_blank" >View and Print QR code</a>
+	<a href="/children/<%= child.url %>/review">View your child's checkins</a>
+<% }) %>
 
-	<div class="form-group">
-		<label for="email">Last Name</label>
-		<input class="form-control" type="text" name="lname" id="lname">
-	</div>
-
-	<input class="btn btn-default" type="submit">
-</form>
-</body>
-</html>

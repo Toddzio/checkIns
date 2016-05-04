@@ -1,0 +1,7 @@
+<h1>  These are the checkins for <%= fname %> <%= lname %></h1>
+
+ <% checkins.forEach(function(checkin){ %>
+      <h5><%= checkin.time%></h5>
+      <h5><%= checkin.lat%></h5>
+      <h5><%= checkin.long%></h5>
+<% }) %>
