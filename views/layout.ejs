@@ -4,6 +4,9 @@
     <meta charset="utf-8">
     <title>Authentication with Passport and Express</title>
     <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.6/slate/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
   </head>
   <body>
     <nav class="navbar navbar-default">
@@ -16,7 +19,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">Authentication with Passport and Express</a>
+          <a class="navbar-brand" href="/home">Checkins</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -24,11 +27,11 @@
           <ul class="nav navbar-nav navbar-right">
             <% if (currentUser) { %>
               <li><a href="/logout">Logout</a></li>
+              <li><a href="/home">Home</a></li>
             <% } else { %>
               <li><a href="/login">Login</a></li>
               <li><a href="/signup">Signup</a></li>
             <% } %>
-            <li><a href="/secret">Secret page (only if authenticated)</a></li>
           </ul>
         </div>
       </div>
@@ -39,4 +42,5 @@
     </main>
 
   </body>
+
 </html>
