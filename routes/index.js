@@ -165,7 +165,7 @@ router.post('/childrennew', authenticatedUser, function(req, res, next) {
 });
 
 /* create a checkin */
-router.get('/test/:hash/checkin', function(req, res, next){
+router.get('/children/:hash/checkin', function(req, res, next){
   Child.find({ url: req.params.hash }, 'fname lname url checkins', function(err, child) {
     console.log(child[0].checkins);
     res.render('checkin', {
@@ -178,7 +178,7 @@ router.get('/test/:hash/checkin', function(req, res, next){
 })
  
 /* update child with checkin */
-router.patch('/test/:hash/checkin', function(req, res, next){
+router.patch('/children/:hash/checkin', function(req, res, next){
   req.body.time = new Date()
   Child.update({url: req.params.hash}, { $push: {checkins: req.body }},  function(err, numberAffected, rawResponse) {
      if (err)
@@ -207,7 +207,7 @@ router.get('/children/:hash/review', authenticatedUser, function(req, res, next)
 /*QR code generation */
 router.get('/children/:hash/qr', authenticatedUser, function(req, res) { 
   Child.find({ url: req.params.hash }, 'fname lname url', function(err, child) {
-     var urlA = "http://localhost:3000/test/"
+     var urlA = "https://gacheckins.herokuapp.com/"
     var myUrl = urlA.concat(child[0].url) + "/checkin";
     var code = qr.image(myUrl, { type: 'svg' });
     res.type('svg');
