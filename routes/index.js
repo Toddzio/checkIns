@@ -160,7 +160,7 @@ router.post('/childrennew', authenticatedUser, function(req, res, next) {
     newChild.save(function(err, child) {
         if (err) console.log(err);
 
-        res.redirect('/children');
+        res.redirect('/home');
     });
 });
 
@@ -183,14 +183,15 @@ router.patch('/children/:hash/checkin', function(req, res, next){
   Child.update({url: req.params.hash}, { $push: {checkins: req.body }},  function(err, numberAffected, rawResponse) {
      if (err)
   console.log(err);
-    res.redirect('/home');
+    res.redirect('/checkedin');
   });
 });
 
 /* list checkins */
 router.get('/children/:hash/review', authenticatedUser, function(req, res, next){
   Child.find({ url: req.params.hash }, 'fname lname url checkins', function(err, child) {
-    if(child[0].checkins[0] != undefined){
+    console.log(child[0].checkins);
+    if(child[0].checkins[0] != undefined && child[0].checkins[0].lat != null){
       res.render('review', {
         fname: child[0].fname,
         lname: child[0].lname,
