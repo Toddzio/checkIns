@@ -183,7 +183,7 @@ router.patch('/children/:hash/checkin', function(req, res, next){
   Child.update({url: req.params.hash}, { $push: {checkins: req.body }},  function(err, numberAffected, rawResponse) {
      if (err)
   console.log(err);
-    res.redirect('/checkedin');
+    res.redirect('checkedin');
   });
 });
 
