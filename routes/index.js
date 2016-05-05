@@ -28,6 +28,11 @@ router.get('/', function(req, res, next) {
   res.render('index', { message: req.flash('errorMessage') });
 });
 
+/* redirected after checkin */
+router.get('/redirected', function(req, res, next){
+  res.render('redirected');
+});
+
 /* GET /signup */
 router.get('/signup', unAuthenticatedUser, function(req, res, next) {
   res.render('signup', { message: req.flash('errorMessage') });
@@ -183,14 +188,13 @@ router.patch('/children/:hash/checkin', function(req, res, next){
   Child.update({url: req.params.hash}, { $push: {checkins: req.body }},  function(err, numberAffected, rawResponse) {
      if (err)
   console.log(err);
-    res.redirect('checkedin');
+    res.redirect('/checkedin');
   });
 });
 
 /* list checkins */
 router.get('/children/:hash/review', authenticatedUser, function(req, res, next){
   Child.find({ url: req.params.hash }, 'fname lname url checkins', function(err, child) {
-    if(child[0].checkins[0] != undefined && child[0].checkins[0].lat != null){
       res.render('review', {
         fname: child[0].fname,
         lname: child[0].lname,
@@ -199,8 +203,6 @@ router.get('/children/:hash/review', authenticatedUser, function(req, res, next)
         long: child[0].checkins[0].long,
         checkins: child[0].checkins
       });
-    };
-    res.redirect('/home');
   });
 });
 
@@ -208,6 +210,7 @@ router.get('/children/:hash/review', authenticatedUser, function(req, res, next)
 router.get('/children/:hash/qr', authenticatedUser, function(req, res) { 
   Child.find({ url: req.params.hash }, 'fname lname url', function(err, child) {
      var urlA = "https://gacheckins.herokuapp.com/children/"
+     // var urlA = "http://localhost:3000/children/"
     var myUrl = urlA.concat(child[0].url) + "/checkin";
     console.log(myUrl);
     var code = qr.image(myUrl, { type: 'svg' });
