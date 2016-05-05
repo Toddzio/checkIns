@@ -190,19 +190,19 @@ router.patch('/children/:hash/checkin', function(req, res, next){
 /* list checkins */
 router.get('/children/:hash/review', authenticatedUser, function(req, res, next){
   Child.find({ url: req.params.hash }, 'fname lname url checkins', function(err, child) {
-    console.log(child[0].checkins[0].lat);
-    res.render('review', {
-      fname: child[0].fname,
-      lname: child[0].lname,
-      hash: child[0].url,
-      lat: child[0].checkins[0].lat,
-      long: child[0].checkins[0].long,
-      checkins: child[0].checkins
-
-    });
-
+    if(child[0].checkins[0] != undefined){
+      res.render('review', {
+        fname: child[0].fname,
+        lname: child[0].lname,
+        hash: child[0].url,
+        lat: child[0].checkins[0].lat,
+        long: child[0].checkins[0].long,
+        checkins: child[0].checkins
+      });
+    };
+    res.redirect('/home');
   });
-})
+});
 
 /*QR code generation */
 router.get('/children/:hash/qr', authenticatedUser, function(req, res) { 
