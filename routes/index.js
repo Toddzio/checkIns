@@ -179,6 +179,7 @@ router.get('/children/:hash/checkin', function(req, res, next){
  
 /* update child with checkin */
 router.patch('/children/:hash/checkin', function(req, res, next){
+  console.log(req.body);
   req.body.time = new Date()
   Child.update({url: req.params.hash}, { $push: {checkins: req.body }},  function(err, numberAffected, rawResponse) {
      if (err)
@@ -190,7 +191,7 @@ router.patch('/children/:hash/checkin', function(req, res, next){
 /* list checkins */
 router.get('/children/:hash/review', authenticatedUser, function(req, res, next){
   Child.find({ url: req.params.hash }, 'fname lname url checkins', function(err, child) {
-    console.log(child[0].checkins);
+    console.log(child[0].checkins[0].lat);
     if(child[0].checkins[0] != undefined && child[0].checkins[0].lat != null){
       res.render('review', {
         fname: child[0].fname,
