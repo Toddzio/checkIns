@@ -3,12 +3,14 @@
 <h2>Accounts for Children</h2>
 <div class="childlist">
 <% Children.forEach(function(child){ %>
+	<div class ="border">
 	<%= child.fname %> 
 	<%= child.lname %>
 	<br>
 	<a href="/children/<%= child.url %>/qr" target="_blank" class="btn btn-xs btn-primary space" role="button" >View and Print QR code</a>
 	<a href="/children/<%= child.url %>/review" class=" btn btn-xs btn-primary space" role="button">View your child's checkins</a>
 	<br>
+	</div>
 <% }) %>
 <a href="/manage" class="btn btn-lg btn-primary space" role="button">Manage your children's logins</a>
 

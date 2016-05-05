@@ -1,18 +1,16 @@
 <h1>  These are the checkins for <%= fname %> <%= lname %></h1>
 <div class="childlist">
 	 <% checkins.forEach(function(checkin){ %>
-	      <h5>Checkin Time</h5>
+	      <div class= "border">
+	      <h4>Checkin Time</h4>
 	      <%= checkin.time%>
-	      <h5>Checkin Latitude</h5>
+	      <h4>Checkin Latitude</h4>
 	      <%= checkin.lat%>
-	      <h5>Checkin Longitude</h5>
-	      <%= checkin.long%>
+	      <h4>Checkin Longitude</h4>
+	      <%= checkin.long%><br>
+	      <a href="https://www.google.com/maps/place/<%=checkin.lat%>,<%=checkin.long%>" class=" btn btn-xs btn-primary space" role="button" target="_blank">View checkin on Google Maps</a>
+	      </div>
 	<% }) %>
-</div>
-
-<div id="floating-panel">
-	<input id="latlng" type="text" value="<%= lat%>,<%= long%>">
-	<input id="submit" type="button" value="Reverse Geocode">
 </div>
 <div id="map"></div>
 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBs6w_10kkDInZPZJBsmlSBxe_gQhyhepc&callback=initMap">
