@@ -207,7 +207,7 @@ router.get('/children/:hash/review', authenticatedUser, function(req, res, next)
 /*QR code generation */
 router.get('/children/:hash/qr', authenticatedUser, function(req, res) { 
   Child.find({ url: req.params.hash }, 'fname lname url', function(err, child) {
-     var urlA = "https://gacheckins.herokuapp.com/"
+     var urlA = "https://gacheckins.herokuapp.com/children/"
     var myUrl = urlA.concat(child[0].url) + "/checkin";
     var code = qr.image(myUrl, { type: 'svg' });
     res.type('svg');
