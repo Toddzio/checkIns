@@ -102,11 +102,6 @@ router.get('/logout', function(req, res, next) {
   res.redirect("/");
 });
 
-/* Restricted pages */
-router.get('/secret', authenticatedUser, function(req, res, next) {
-  res.render("secret");
-});
-
 /* view all children */
 router.get('/children', authenticatedUser, function(req, res, next){
     var userId = req.user._id.toString();
@@ -195,7 +190,6 @@ router.patch('/children/:hash/checkin', function(req, res, next){
 /* list checkins */
 router.get('/children/:hash/review', authenticatedUser, function(req, res, next){
   Child.find({ url: req.params.hash }, 'fname lname url checkins', function(err, child) {
-    console.log(child[0].checkins[0].lat);
     if(child[0].checkins[0] != undefined && child[0].checkins[0].lat != null){
       res.render('review', {
         fname: child[0].fname,
