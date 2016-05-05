@@ -29,8 +29,8 @@ router.get('/', function(req, res, next) {
 });
 
 /* redirected after checkin */
-router.get('/redirected', function(req, res, next){
-  res.render('redirected');
+router.get('/checkedin', function(req, res, next){
+  res.render('checkedin');
 });
 
 /* GET /signup */
@@ -180,7 +180,7 @@ router.get('/children/:hash/checkin', function(req, res, next){
 /* update child with checkin */
 router.patch('/children/:hash/checkin', function(req, res, next){
   console.log(req.body);
-   if (req.body.lat && req.body.long == undefined) {
+   if (req.body.lat == undefined && req.body.long == undefined) {
     req.body.lat = 0
     req.body.long = 0
    };
@@ -206,14 +206,13 @@ router.get('/children/:hash/review', authenticatedUser, function(req, res, next)
       });
     };
   });
-   res.redirect('/home');
 });
 
 /*QR code generation */
 router.get('/children/:hash/qr', authenticatedUser, function(req, res) { 
   Child.find({ url: req.params.hash }, 'fname lname url', function(err, child) {
-     // var urlA = "https://gacheckins.herokuapp.com/children/"
-     var urlA = "http://localhost:3000/children/"
+     var urlA = "https://gacheckins.herokuapp.com/children/"
+     // var urlA = "http://localhost:3000/children/"
     var myUrl = urlA.concat(child[0].url) + "/checkin";
     console.log(myUrl);
     var code = qr.image(myUrl, { type: 'svg' });
