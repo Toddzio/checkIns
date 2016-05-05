@@ -1,0 +1,13 @@
+<h2>Manage the logins for your children</h2>
+<div>
+	<a href="/children/new" class="btn btn-lg btn-primary" role="button">create a new login</a>
+</div>
+<div class="childlist"><% Children.forEach(function(child){ %>
+	<%= child.fname %>
+	<%= child.lname %>
+	<form action= "/children/<%=child._id%>/delete" method="POST">
+		<input type="hidden" name="_method" value="DELETE">
+		<button id="delete" type="submit" class="btn btn-sm btn-danger space" role="button" >Delete Login</button>
+	</form>
+<% }) %>
+</div>

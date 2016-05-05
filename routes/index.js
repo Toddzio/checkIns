@@ -62,8 +62,39 @@ router.post('/login', function(req, res, next) {
 
 /* Render Home */
 router.get('/home', authenticatedUser, function(req, res, next){
-  res.render('home');
-})
+  var userId = req.user._id.toString();
+  Child.find({ user: userId }, 'fname lname url', function(err, child){
+      if (err) console.log("snake")
+        
+    console.log("foo");
+    res.render('home', {
+      Children: child
+    });
+  });
+});
+
+/* render manage*/
+router.get('/manage', authenticatedUser, function(req, res, next){
+   var userId = req.user._id.toString();
+  Child.find({ user: userId }, 'fname lname url', function(err, child){
+      if (err) console.log(err)
+        
+    console.log("bar");
+    res.render('manage', {
+      Children: child
+    });
+  });
+});
+
+/*delete route*/
+router.delete('/children/:hash/delete', authenticatedUser, function(req, res, next) {
+  console.log(req.params.hash);
+  Child.findByIdAndRemove(req.params.hash, function(err) {
+    if (err) console.log(err);
+    console.log('User deleted!');
+  });
+  res.redirect('/manage')
+});
 
 /* GET /logout */
 router.get('/logout', function(req, res, next) {
@@ -159,12 +190,15 @@ router.patch('/test/:hash/checkin', function(req, res, next){
 /* list checkins */
 router.get('/children/:hash/review', authenticatedUser, function(req, res, next){
   Child.find({ url: req.params.hash }, 'fname lname url checkins', function(err, child) {
-    console.log(child[0].checkins);
+    console.log(child[0].checkins[0].lat);
     res.render('review', {
       fname: child[0].fname,
       lname: child[0].lname,
       hash: child[0].url,
+      lat: child[0].checkins[0].lat,
+      long: child[0].checkins[0].long,
       checkins: child[0].checkins
+
     });
 
   });
