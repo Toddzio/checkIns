@@ -2,7 +2,7 @@
 <div>
 <p>Hello <%= name %> Please checkin to let your family know you are home</p>
 </div>
-<form action= "/test/<%= hash %>/checkin" method="POST">
+<form action= "/children/<%= hash %>/checkin" method="POST">
 	<input type="hidden" name="_method" value="PATCH">
 	<input type="hidden" name="time" id="time" value="">
 	<input type="hidden" name="lat" id="lat" value="">
