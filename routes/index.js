@@ -180,10 +180,10 @@ router.get('/children/:hash/checkin', function(req, res, next){
 /* update child with checkin */
 router.patch('/children/:hash/checkin', function(req, res, next){
   console.log(req.body);
-   if (req.body.lat && req.body.long == undefined) {
-    req.body.lat = 0
-    req.body.long = 0
-   };
+   // if (req.body.lat && req.body.long == undefined) {
+   //  req.body.lat = 0
+   //  req.body.long = 0
+   // };
   req.body.time = new Date()
   Child.update({url: req.params.hash}, { $push: {checkins: req.body }},  function(err, numberAffected, rawResponse) {
      if (err)
