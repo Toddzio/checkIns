@@ -33,7 +33,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Enable support for layout file and more
 app.use(ejsLayouts);
 // use express.session() before passport.session() to ensure that the login session is restored in the correct order
-app.use(session({ secret: 'WDI-GENERAL-ASSEMBLY-EXPRESS' }));
+// app.use(session({ secret: 'WDI-GENERAL-ASSEMBLY-EXPRESS' }));
+app.use(session({
+  secret: process.env.APP_SECRET,
+  // saveUninitialized: true,
+  // resave: false,
+  // cookie: { maxAge: 60000 }
+}));
 // passport.initialize() middleware is required to initialize Passport.
 app.use(passport.initialize());
 // If your application uses persistent login sessions, passport.session()
