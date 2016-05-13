@@ -41,12 +41,12 @@ router.get('/signup', unAuthenticatedUser, function(req, res, next) {
 /* POST /signup */
 router.post('/signup', function(req, res, next) {
   var signupStrategy = passport.authenticate('local-signup', {
-    successRedirect: "/",
+    successRedirect: "/home",
     failureRedirect: "/signup",
     failureFlash: true
   });
 
-  return signupStrategy(req, res);
+  return signupStrategy(req, res, next);
 });
 
 /* GET /login */
