@@ -1,13 +1,13 @@
 
 <div>
-<p>Hello <%= name %> Please checkin to let your family know you are home</p>
+<p>Hello <%= name %> Please CheckIn to let your family know you are home</p>
 </div>
 <form action= "/children/<%= hash %>/checkin" method="POST">
 	<input type="hidden" name="_method" value="PATCH">
 	<input type="hidden" name="time" id="time" value="">
 	<input type="hidden" name="lat" id="lat" value="">
 	<input type="hidden" name="long" id="long" value="">
-	<button id="checkIn" type="submit" class=" btn btn-xs btn-primary space">check in</button>
+	<button id="checkIn" type="submit" class=" btn btn-lg btn-primary space">CheckIn</button>
 </form>
 <p id="demo"></p> 
 
