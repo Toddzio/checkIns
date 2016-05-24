@@ -229,7 +229,7 @@ router.get('/children/:hash/review2', authenticatedUser, function(req, res, next
 /* list checkins w/bootstrap modal */
 router.get('/children/:hash/review3', authenticatedUser, function(req, res, next){
   Child.find({ url: req.params.hash }, 'fname lname url checkins', function(err, child) {
-    console.log(child[0].checkins);
+    // console.log(child[0].checkins);
     if(child[0].checkins[0] != undefined && child[0].checkins[0].lat != null){
       res.render('review3', {
         fname: child[0].fname,

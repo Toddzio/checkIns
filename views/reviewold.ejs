@@ -1,0 +1,19 @@
+<h1>  These are the CheckIns for <%= fname %> <%= lname %></h1>
+<div class="childlist">
+	 <% checkins.forEach(function(checkin){ %>
+	      <div class= "border">
+	      <h4>Checkin Time</h4>
+	      <%= checkin.time%>
+	      <h4>Checkin Latitude</h4>
+	      <%= checkin.lat%>
+	      <h4>Checkin Longitude</h4>
+	      <%= checkin.long%><br>
+	      <a href="https://www.google.com/maps/place/<%=checkin.lat%>,<%=checkin.long%>" class=" btn btn-xs btn-primary space" role="button" target="_blank">View checkin on Google Maps</a>
+	      </div>
+	<% }) %>
+</div>
+<div id="map"></div>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBs6w_10kkDInZPZJBsmlSBxe_gQhyhepc&callback=initMap">
+</script>
+	<script src='/javascripts/geoloc.js' type="text/javascript">
+</script>
