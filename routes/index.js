@@ -209,6 +209,39 @@ router.get('/children/:hash/review', authenticatedUser, function(req, res, next)
   });
 });
 
+/* list checkins w/google modal */
+router.get('/children/:hash/review2', authenticatedUser, function(req, res, next){
+  Child.find({ url: req.params.hash }, 'fname lname url checkins', function(err, child) {
+    console.log(child[0].checkins);
+    if(child[0].checkins[0] != undefined && child[0].checkins[0].lat != null){
+      res.render('review2', {
+        fname: child[0].fname,
+        lname: child[0].lname,
+        hash: child[0].url,
+        lat: child[0].checkins[0].lat,
+        long: child[0].checkins[0].long,
+        checkins: child[0].checkins
+      });
+    };
+  });
+});
+
+/* list checkins w/bootstrap modal */
+router.get('/children/:hash/review3', authenticatedUser, function(req, res, next){
+  Child.find({ url: req.params.hash }, 'fname lname url checkins', function(err, child) {
+    // console.log(child[0].checkins);
+    if(child[0].checkins[0] != undefined && child[0].checkins[0].lat != null){
+      res.render('review3', {
+        fname: child[0].fname,
+        lname: child[0].lname,
+        hash: child[0].url,
+        lat: child[0].checkins[0].lat,
+        long: child[0].checkins[0].long,
+        checkins: child[0].checkins
+      });
+    };
+  });
+});
 /*QR code generation */
 router.get('/children/:hash/qr', authenticatedUser, function(req, res) { 
   Child.find({ url: req.params.hash }, 'fname lname url', function(err, child) {

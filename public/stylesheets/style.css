@@ -13,3 +13,18 @@
 	padding: 8px 10px 8px 10px;
 	margin-bottom: 8px;
 }
+
+.none {
+	display: none;
+}
+
+html, body, #map-canvas  {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+#map-canvas {
+  width:500px;
+  height:480px;
+}
