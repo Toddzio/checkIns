@@ -26,10 +26,8 @@ String.prototype.hashCode = function(){
 
 childSchema.statics.generateURL = function(fname, lname){
 	var myHash = (Math.abs(fname.concat(lname).hashCode())).toString();
-	console.log(myHash);
 	var myDate = new Date().getTime().toString();
 	var url = myHash.concat(myDate);
-	console.log(url);
 	return url;
 }
 
