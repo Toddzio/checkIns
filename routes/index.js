@@ -160,7 +160,7 @@ router.post('/childrennew', authenticatedUser, function(req, res, next) {
     });
 });
 
-/* Update with new QR code - needs to be moved to modael */
+/* Update with new QR code - needs to be moved to model - still in Dev */
 router.get('/children/:hash/newqr', authenticatedUser, function(req, res, next){
   Child.find({ url: req.params.hash }, 'fname lname url', function(err, child){
     console.log(child[0]);
@@ -184,6 +184,7 @@ router.get('/children/:hash/checkin', function(req, res, next){
   Child.find({ url: req.params.hash }, 'fname lname url checkins', function(err, child) {
     console.log(child[0].checkins);
     res.render('checkin', {
+      title: 'CheckIn',
       name: child[0].fname,
       hash: child[0].url,
       userId: child[0]._id
